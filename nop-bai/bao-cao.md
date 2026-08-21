@@ -27,38 +27,21 @@ HƯỚNG DẪN - đọc rồi XÓA TOÀN BỘ các khối chú thích này sau k
 
 | Lần chạy | n_estimators | learning_rate | max_depth | f1_score | accuracy |
 |---|---|---|---|---|---|
-| 1 | ___ | ___ | ___ | ___ | ___ |
-| 2 | ___ | ___ | ___ | ___ | ___ |
-| 3 | ___ | ___ | ___ | ___ | ___ |
+| 1 | 100 | 0.1 | 3 | 0.7109 | 0.8780 |
+| 2 | 50 | 0.05 | 2 | 0.6051 | 0.8460 |
+| 3 | 200 | 0.1 | 5 | 0.7149 | 0.8740 |
 
-**Bộ siêu tham số đã chọn:** `n_estimators=___`, `learning_rate=___`, `max_depth=___`.
+**Bộ siêu tham số đã chọn:** `n_estimators=200`, `learning_rate=0.1`, `max_depth=5`.
 
-**Lý do:** ___
-
-<!--
-Trả lời trong phần Lý do:
-  - Vì sao bộ này tốt hơn các bộ còn lại (dựa trên f1_score, không phải accuracy)?
-  - Lần chạy có accuracy cao nhất có trùng với lần có f1_score cao nhất không?
-    Nếu không, điều đó nói lên điều gì?
-  - Bạn quan sát thấy đánh đổi nào giữa n_estimators và learning_rate?
--->
+**Lý do:** Bộ siêu tham số này đạt điểm `f1_score` cao nhất (0.7149), vượt qua ngưỡng chất lượng tối thiểu 0.65 của bài toán phân loại mất cân bằng lớp. So với lần chạy 1 có accuracy cao nhất (0.8780), lần chạy 3 chấp nhận đánh đổi một phần nhỏ accuracy tổng thể để tăng khả năng phát hiện đúng các trường hợp thuộc lớp thiểu số (thu nhập > 50K). Khi tăng `n_estimators` từ 50 lên 200 kết hợp với `max_depth=5`, mô hình Gradient Boosting có đủ độ sâu và số lượng cây để học các mẫu dữ liệu phức tạp hơn mà không bị underfitting.
 
 ---
 
 ## 2. Vì Sao Ngưỡng Chất Lượng Đặt Trên F1 Chứ Không Phải Accuracy
 
-<!-- Khoảng 120 - 150 từ. -->
+Tập dữ liệu Adult có phân bố lớp mất cân bằng nghiêm trọng khi chỉ có khoảng 24.8% mẫu thuộc lớp thu nhập cao (>50K USD). Trong tình huống này, một mô hình suy đoán ngây thơ (naive model) luôn trả về kết quả "thu nhập thấp" cho mọi cá nhân vẫn sẽ đạt chỉ số Accuracy lên tới 75.2%. Tuy nhiên, mô hình đó hoàn toàn vô dụng trên thực tế vì không phát hiện được bất kỳ đối tượng mục tiêu nào ($F_1 = 0$).
 
-___
-
-<!--
-Cần nêu được:
-  - Phân bố lớp của tập dữ liệu (tỷ lệ lớp thu nhập > 50K) và hệ quả của nó.
-  - Accuracy của một mô hình luôn trả lời "thu nhập thấp" là bao nhiêu, vì sao con số
-    đó gây hiểu nhầm.
-  - F1 của lớp dương đo điều gì mà accuracy không đo được.
-  - Vì sao KHÔNG dùng average="weighted" hay average="macro" khi gọi f1_score.
--->
+Chỉ số F1-Score trên lớp dương (thu nhập > 50K) là trung bình điều hòa giữa Precision và Recall, phản ánh chính xác khả năng mô hình vừa phân loại đúng đối tượng mục tiêu vừa hạn chế cảnh báo sai. Lab không sử dụng `average="weighted"` hay `average="macro"` vì các cách tính này bị kéo lên cao bởi lớp đa số (75.2%), làm mất đi ý nghĩa thực sự của ngưỡng kiểm thử chất lượng trong pipeline CI/CD.
 
 ---
 
