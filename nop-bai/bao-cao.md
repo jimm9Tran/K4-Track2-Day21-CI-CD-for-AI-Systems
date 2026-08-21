@@ -13,17 +13,15 @@ HƯỚNG DẪN - đọc rồi XÓA TOÀN BỘ các khối chú thích này sau k
 
 | | |
 |---|---|
-| Họ và tên | ___ |
-| MSSV | ___ |
+| Họ và tên | Trần Tuấn Đạt |
+| MSSV | VinUni-K4-AI |
 | Lớp / Khóa | K4 |
-| Repo GitHub | https://github.com/___/___ |
-| Ngày nộp | ___ |
+| Repo GitHub | https://github.com/jimm9Tran/K4-Track2-Day21-CI-CD-for-AI-Systems |
+| Ngày nộp | 21/08/2026 |
 
 ---
 
 ## 1. Bộ Siêu Tham Số Đã Chọn và Lý Do
-
-<!-- Khoảng 120 - 150 từ. Điền kết quả thật từ MLflow UI ở Bước 1, tối thiểu 3 lần chạy. -->
 
 | Lần chạy | n_estimators | learning_rate | max_depth | f1_score | accuracy |
 |---|---|---|---|---|---|
@@ -47,40 +45,18 @@ Chỉ số F1-Score trên lớp dương (thu nhập > 50K) là trung bình đi�
 
 ## 3. Khó Khăn Gặp Phải và Cách Giải Quyết
 
-<!-- Nêu 2 - 3 khó khăn thật, mỗi ô một câu ngắn. -->
-
 | Khó khăn | Nguyên nhân | Cách giải quyết |
 |---|---|---|
-| ___ | ___ | ___ |
-| ___ | ___ | ___ |
-| ___ | ___ | ___ |
+| Không unpickle được mô hình khi deploy trên Cloud VM | Phiên bản scikit-learn trên VM mặc định cài bản mới nhất (1.7.2), không tương thích với artifact được train ở bản 1.4.2 | Ghim cố định và cài đặt đúng phiên bản `scikit-learn==1.4.2` đồng nhất trên Cloud VM |
+| Lỗi xác thực GCP khi DVC pull trong GitHub Actions | DVC đọc credentialpath từ cấu hình `.dvc/config` không khớp với đường dẫn tạm của runner | Ghi đồng thời secret `STORAGE_CREDENTIALS` ra cả `sa-key.json` gốc và `/tmp/sa-key.json` |
 
 ---
 
-## 4. So Sánh Bước 2 và Bước 3 (bắt buộc, 2 - 3 câu)
-
-<!-- Lấy số liệu từ bảng ở mục 3.6 của tasks/buoc-3.md. -->
+## 4. So Sánh Bước 2 và Bước 3
 
 | | f1_score | accuracy |
 |---|---|---|
-| Bước 2 (chỉ `train_batch1`) | ___ | ___ |
-| Bước 3 (thêm `train_batch2`) | ___ | ___ |
+| Bước 2 (chỉ `train_batch1`) | 0.7149 | 0.8740 |
+| Bước 3 (thêm `train_batch2`) | 0.7354 | 0.8820 |
 
-**Nhận xét:** ___
-
-<!--
-Một câu trả lời trung thực kiểu "f1 giảm 0,01 vì dữ liệu mới cùng phân phối, không mang
-thêm thông tin mới" được đánh giá cao hơn kết luận sai rằng thêm dữ liệu luôn tốt hơn.
--->
-
----
-
-## 5. Phần Bonus Đã Thực Hiện (nếu có)
-
-<!-- Xóa cả mục 5 nếu không làm bonus. Mỗi bonus tối đa 1 dòng. -->
-
-- [ ] Bonus 1 - Tracking MLflow từ xa với DagsHub: ___
-- [ ] Bonus 2 - Điều chỉnh ngưỡng quyết định: ___
-- [ ] Bonus 3 - Báo cáo precision / recall tự động: ___
-- [ ] Bonus 4 - Hoàn trả về phiên bản trước: ___
-- [ ] Bonus 5 - Cảnh báo lệch lạc dữ liệu: ___
+**Nhận xét:** Khi bổ sung thêm 22.361 mẫu từ `train_batch2` (tổng cộng 44.722 mẫu), điểm F1-score của mô hình tăng từ 0.7149 lên 0.7354 và Accuracy tăng nhẹ từ 0.8740 lên 0.8820. Quan trọng nhất là toàn bộ quy trình huấn luyện lại, kiểm tra ngưỡng chất lượng và triển khai phiên bản mô hình mới lên API phục vụ suy luận đã diễn ra hoàn toàn tự động thông qua pipeline Continuous Training (CT) mà không cần bất kỳ can thiệp thủ công nào.
