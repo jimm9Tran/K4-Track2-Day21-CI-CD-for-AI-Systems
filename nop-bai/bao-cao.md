@@ -1,20 +1,9 @@
 # Báo Cáo Lab Day 21 - CI/CD cho AI Systems
 
-<!--
-HƯỚNG DẪN - đọc rồi XÓA TOÀN BỘ các khối chú thích này sau khi điền xong:
-
-  - Giới hạn: KHÔNG QUÁ 1 TRANG A4, tương đương khoảng 450 - 550 từ nội dung.
-  - Chỉ điền vào các chỗ ___ và các ô trong bảng. Không thêm mục mới.
-  - Viết bằng câu hoàn chỉnh, không gạch đầu dòng cụt lủn.
-  - Kiểm tra độ dài sau khi đã xóa hết chú thích:
-        wc -w nop-bai/bao-cao.md
-    và xem trước bản in bằng cách mở file trên GitHub rồi Ctrl+P / Cmd+P.
--->
-
 | | |
 |---|---|
-| Họ và tên | Trần Tuấn Đạt |
-| MSSV | VinUni-K4-AI |
+| Họ và tên | Trần Minh Hiền |
+| MSSV | 2A202601300 |
 | Lớp / Khóa | K4 |
 | Repo GitHub | https://github.com/jimm9Tran/K4-Track2-Day21-CI-CD-for-AI-Systems |
 | Ngày nộp | 21/08/2026 |
